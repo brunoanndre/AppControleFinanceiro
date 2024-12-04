@@ -1,9 +1,11 @@
 ﻿using Dima.Api.Common.Api;
 using Dima.Api.Common.Endpoints.Categories;
 using Dima.Api.Common.Endpoints.Identity;
+using Dima.Api.Common.Endpoints.Orders;
 using Dima.Api.Common.Endpoints.Reports;
 using Dima.Api.Common.Endpoints.Transactions;
 using Dima.Api.Models;
+using Dima.Core.Requests.Orders;
 
 
 namespace Dima.Api.Common.Endpoints
@@ -31,6 +33,28 @@ namespace Dima.Api.Common.Endpoints
                 .MapEndpoint<DeleteTransactionEndpoint>()
                 .MapEndpoint<GetTransactionByIdEndpoint>()
                 .MapEndpoint<GetTransactionsByPeriodEndpoint>();
+
+            endpoints.MapGroup("v1/products")
+                .WithTags("Products")
+                .RequireAuthorization()
+                .MapEndpoint<GetAllProductsEndpoint>()
+                .MapEndpoint<GetProductBySlugEndpoint>();
+
+            endpoints.MapGroup("v1/vouchers")
+                .WithTags("Vouchers")
+                .RequireAuthorization()
+                .MapEndpoint<GetVoucherByNumberEndpoint>();
+
+
+            endpoints.MapGroup("v1/orders")
+                .WithTags("Orders")
+                .RequireAuthorization()
+                .MapEndpoint<GetAllOrdersEndpoint>()
+                .MapEndpoint<GetOrderByNumberEndpoint>()
+                .MapEndpoint<CreateOrderEndpoint>()
+                .MapEndpoint<CancelOrderEndpoint>()
+                .MapEndpoint<PayOrderEndpoint>()
+                .MapEndpoint<RefundOrderEndpoint>();
 
             app.MapGroup("v1/identity")
                 .WithTags("Identity")

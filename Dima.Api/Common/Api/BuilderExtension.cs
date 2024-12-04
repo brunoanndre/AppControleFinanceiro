@@ -51,7 +51,11 @@ namespace Dima.Api.Common.Api
         {
             builder.Services.AddTransient<ICategoryHandler, CategoryHandler>(); //Transient usa apenas uma instância do CategoryHandler e depois descarta
             builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+            builder.Services.AddTransient<IProductHandler, ProductHandler>();
+            builder.Services.AddTransient<IVoucherHandler, VoucherHandler>();
+            builder.Services.AddTransient<IOrderHandler, OrderHandler>();
             builder.Services.AddTransient<IReportHandler, ReportHandler>(); 
+            
         }
 
         public static void AddCrossOrigin(this WebApplicationBuilder builder)
