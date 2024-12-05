@@ -31,10 +31,13 @@ builder.Services.AddHttpClient(Configuration.HttpClientName, opt =>
 builder.Services.AddTransient<IAccountHandler,AccountHandler>();
 builder.Services.AddTransient<ICategoryHandler,CategoryHandler>();
 builder.Services.AddTransient<ITransactionHandler,TransactionHandler>();
+builder.Services.AddTransient<IProductHandler,ProductHandler>();
+builder.Services.AddTransient<IVoucherHandler,VoucherHandler>();
+builder.Services.AddTransient<IOrderHandler,OrderHandler>();
 builder.Services.AddTransient<IReportHandler,ReportHandler>();
 
-builder.Services.AddLocalization(); //Para garantir que seja utilizado a localização do navegador, para o idioma e moeda por ex.
-CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pt-BR"); //Forçar para ser sempre em pt br
+builder.Services.AddLocalization(); //Para garantir que seja utilizado a localizaï¿½ï¿½o do navegador, para o idioma e moeda por ex.
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pt-BR"); //Forï¿½ar para ser sempre em pt br
 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("pt-BR");
 
 await builder.Build().RunAsync();
