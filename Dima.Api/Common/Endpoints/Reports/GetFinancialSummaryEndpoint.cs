@@ -17,18 +17,18 @@ namespace Dima.Api.Common.Endpoints.Reports
 
         }
 
-        public static async Task<IResult> HandleAsync(ClaimsPrincipal user, IReportHandler Handler)
+        public static async Task<IResult> HandleAsync(ClaimsPrincipal user, IReportHandler handler)
         {
             var request = new GetFinancialSummaryRequest
             {
                 UserId = user.Identity?.Name ?? string.Empty
             };
 
-            var result = await Handler.GetFinancialSummaryReportAsync(request);
-
+            var result = await handler.GetFinancialSummaryReportAsync(request);
+            Console.WriteLine("result: " + result);
             return result!.IsSuccess
                 ? TypedResults.Ok(result)
-                : TypedResults.BadRequest(result);
+                : TypedResults.NotFound(result);
         }
     }
 }

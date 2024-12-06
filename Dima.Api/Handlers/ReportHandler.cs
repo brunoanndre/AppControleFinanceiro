@@ -44,7 +44,8 @@ namespace Dima.Api.Handlers
                         x.Where(x => x.Type == ETransactionType.Withdraw).Sum(x => x.Amount)))
                     .FirstOrDefaultAsync();
 
-                if (data is null) return new Response<FinancialSummary>(null, 404, "Não há registros financeiros para o mês atual.");
+                if (data is null) 
+                    return new Response<FinancialSummary>(null, 404, "Não há registros financeiros para o mês atual.");
 
                 return new Response<FinancialSummary>(data, 200,"funcionou");
             }

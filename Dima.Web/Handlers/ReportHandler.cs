@@ -1,4 +1,5 @@
-﻿using Dima.Core.Handlers;
+﻿using System.Net;
+using Dima.Core.Handlers;
 using Dima.Core.Models.Reports;
 using Dima.Core.Requests.Reports;
 using Dima.Core.Responses;
@@ -18,8 +19,25 @@ namespace Dima.Web.Handlers
 
         public async Task<Response<FinancialSummary?>> GetFinancialSummaryReportAsync(GetFinancialSummaryRequest request)
         {
-             return await _httpClient.GetFromJsonAsync<Response<FinancialSummary?>>("v1/reports/summary")
-                ?? new Response<FinancialSummary?>(null, 400, "Não foi possível obter os dados");
+            var httpResponse = await _httpClient.GetAsync("v1/reports/summary");
+
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                var response = await httpResponse.Content.ReadFromJsonAsync<Response<FinancialSummary?>>();
+
+                return response!.IsSuccess
+                    ? new Response<FinancialSummary?>(response.Data, 200)
+                    : new Response<FinancialSummary?>(null, 400, "Erro ao obter o resumo financeiro");
+            }
+            else if(httpResponse.StatusCode == HttpStatusCode.NotFound)
+            {
+                return new Response<FinancialSummary?>(null, 404, "Não foram encontrados registros financeiros");
+            }
+            
+            return new Response<FinancialSummary?>(null, 400, "Erro ao obter o resumo financeiro");
+
+            //return await _httpClient.GetFromJsonAsync<Response<FinancialSummary?>>("v1/reports/summary")
+            // ?? new Response<FinancialSummary?>(null, 400, "Não foi possível obter os dados");
         }
 
         public async Task<Response<List<IncomesAndExpenses>?>> GetIncomesAndExpensesReportAsync(GetIncomesAndExpensesRequest request)

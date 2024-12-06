@@ -30,6 +30,10 @@ namespace Dima.Web.Pages
             {
                 Summary = response.Data;
             }
+            else
+            {
+                Summary = null;
+            }
         }
         #endregion
 
