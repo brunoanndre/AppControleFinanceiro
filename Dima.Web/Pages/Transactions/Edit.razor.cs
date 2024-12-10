@@ -12,7 +12,7 @@ namespace Dima.Web.Pages.Transactions
         #region Properties
         public bool IsBusy { get; set; } = false;
         [Parameter]
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
         public UpdateTransactionRequest InputModel { get; set; } = new();
         public List<Category> Categories { get; set; } = [];
 
@@ -62,7 +62,7 @@ namespace Dima.Web.Pages.Transactions
                 {
                     InputModel = new UpdateTransactionRequest
                     {
-                        CategoryId = result.Data.CategoryId,
+                        CategoryId = result.Data!.CategoryId,
                         PaidOrReceivedAt = result.Data.PaidOrReceivedAt,
                         Title = result.Data.Title,
                         Type = result.Data.Type,

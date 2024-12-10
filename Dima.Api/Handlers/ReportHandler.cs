@@ -29,7 +29,7 @@ namespace Dima.Api.Handlers
             }
         }
 
-        public async Task<Response<FinancialSummary>?> GetFinancialSummaryReportAsync(GetFinancialSummaryRequest request)
+        public async Task<Response<FinancialSummary?>> GetFinancialSummaryReportAsync(GetFinancialSummaryRequest request)
         {
             try
             {
@@ -45,13 +45,13 @@ namespace Dima.Api.Handlers
                     .FirstOrDefaultAsync();
 
                 if (data is null) 
-                    return new Response<FinancialSummary>(null, 404, "Não há registros financeiros para o mês atual.");
+                    return new Response<FinancialSummary?>(null, 404, "Não há registros financeiros para o mês atual.");
 
-                return new Response<FinancialSummary>(data, 200,"funcionou");
+                return new Response<FinancialSummary?>(data, 200,"funcionou");
             }
             catch
             {
-                return new Response<FinancialSummary>(null, 500, "Não foi possível obter o resultado financeiro");
+                return new Response<FinancialSummary?>(null, 500, "Não foi possível obter o resultado financeiro");
             }
         }
 

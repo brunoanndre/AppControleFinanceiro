@@ -61,10 +61,13 @@ public class OrderHandler(AppDbContext context) : IOrderHandler
         Product? product;
         try
         {
-            product = await context.Products.AsNoTracking()
+            product = await context
+                .Products
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.ProductId && x.IsActive == true);
 
-            if (product is null) return new Response<Order?>(null, 404, "Produto não encontrado");
+            if (product is null) 
+                return new Response<Order?>(null, 404, "Produto não encontrado");
 
             context.Attach(product); //Dessa maneira não irá tentar criar o produto novamente no banco
         }
@@ -78,7 +81,10 @@ public class OrderHandler(AppDbContext context) : IOrderHandler
         {
             if (request.VoucherId is not null)
             {
-                voucher = await context.Voucher.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.VoucherId && x.IsActive == true);
+                voucher = await context
+                    .Voucher
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == request.VoucherId && x.IsActive == true);
 
                 if (voucher is null)
                     return new Response<Order?>(null, 400, "Voucher inválido ou não encontrado");
@@ -87,6 +93,7 @@ public class OrderHandler(AppDbContext context) : IOrderHandler
                     return new Response<Order?>(null, 400, "Este voucher já foi utilizado");
 
                 voucher.IsActive = false;
+                
                 context.Voucher.Update(voucher);
             }
         }

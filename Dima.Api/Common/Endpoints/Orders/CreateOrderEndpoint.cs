@@ -16,13 +16,16 @@ public class CreateOrderEndpoint : IEndpoint
             .WithOrder(1)
             .Produces<Response<Order?>>();
 
-    private static async Task<IResult> HandleAsync(IOrderHandler handler, CreateOrderRequest request,
+    private static async Task<IResult> HandleAsync(
+        IOrderHandler handler, 
+        CreateOrderRequest request,
         ClaimsPrincipal user)
     {
         request.UserId = user.Identity!.Name ?? string.Empty;
 
         var result = await handler.CreateAsync(request);
         
-        return result.IsSuccess ? TypedResults.Created($"v1/orders/{result}") : TypedResults.BadRequest(result); 
+        return result.IsSuccess ? TypedResults.Created($"v1/orders/{result.Data?.Number}", result) 
+            : TypedResults.BadRequest(result); 
     }
 }
