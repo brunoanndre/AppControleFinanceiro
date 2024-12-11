@@ -1,0 +1,45 @@
+@page "/pedidos/{number}"
+@inherits DetailsPage
+
+<MudText Typo="Typo.h4" Align="Align.Center" Class="mt-10">Detalhes do Pedido</MudText>
+<br/>
+
+@if (Order is not null)
+{
+    <div class="d-flex justify-center">
+        <div>
+            <h4>Número do Pedido</h4>
+            <p>@Order.Number</p>
+            <h4>Data do pedido</h4>
+            <p>@Order.CreatedAt.ToString("dd/MM/yyyy")</p>
+            <br/>
+            <h4>Última Atualização</h4>
+            <p>@Order.UpdatedAt.ToString("dd/MM/yyyy")</p>
+            <br/>
+            <h4>Produto</h4>
+            <p>@Order.Product.Title</p>
+            <br/>
+            <h4>Valor do Produto</h4>
+            <p>@Order.Product.Price.ToString("C")</p>
+            <br/>
+            <h4>Desconto</h4>
+            <p>@(Order.Voucher is null ? "Não aplicado" : Order.Voucher.Amount.ToString("C"))</p>
+            <br/>
+            <h4>Valor Total</h4>
+            <p>@Order.Total.ToString("C")</p>
+            <br/>
+            <h4>Situação</h4>
+            <OrderStatus Status="Order.Status"></OrderStatus>
+            <br/>
+            <CascadingValue Value="this">
+                <OrderAction Order="Order"></OrderAction>
+            </CascadingValue>
+        </div>
+    </div>
+}
+else
+{
+    <MudSkeleton Animation="Animation.Wave"></MudSkeleton>
+    <MudSkeleton Animation="Animation.Wave"></MudSkeleton>
+    <MudSkeleton Animation="Animation.Wave"></MudSkeleton>
+}
